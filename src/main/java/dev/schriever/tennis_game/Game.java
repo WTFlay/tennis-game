@@ -1,61 +1,59 @@
 package dev.schriever.tennis_game;
 
 public class Game {
-    private String player1;
-    private int player1Score;
-    private String player2;
-    private int player2Score;
+    private final Player player1;
+    private final Player player2;
 
-    public Game(String player1, String player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    public Game(String player1Name, String player2Name) {
+        this.player1 = new Player(player1Name);
+        this.player2 = new Player(player2Name);
     }
 
     public void play(String[] wins) {
         for (String win: wins) {
-            if (win.equals(player1)) {
-                if (player2Score == 55) {
-                    player2Score -= 15;
-                } else if (player1Score == 30) {
-                    player1Score += 10;
+            if (win.equals(player1.getName())) {
+                if (player2.getScore() == 55) {
+                    player2.setScore(player2.getScore() - 15);
+                } else if (player1.getScore() == 30) {
+                    player1.setScore(player1.getScore() + 10);
                 } else {
-                    player1Score += 15;
+                    player1.setScore(player1.getScore() + 15);
                 }
             } else {
-                if (player1Score == 55) {
-                    player1Score -= 15;
-                } else if (player2Score == 30) {
-                    player2Score += 10;
+                if (player1.getScore() == 55) {
+                    player1.setScore(player1.getScore() - 15);
+                } else if (player2.getScore() == 30) {
+                    player2.setScore(player2.getScore() + 10);
                 } else {
-                    player2Score += 15;
+                    player2.setScore(player2.getScore() + 15);
                 }
             }
         }
     }
 
     public String getResult() {
-        if (player1Score > player2Score) {
-            return getPlayerScore(player1Score, player2Score, player1);
-        } else if (player2Score > player1Score) {
-            return getPlayerScore(player2Score, player1Score, player2);
-        } else if (player1Score == 40) {
+        if (player1.getScore() > player2.getScore()) {
+            return getPlayerScore(player1, player2);
+        } else if (player2.getScore() > player1.getScore()) {
+            return getPlayerScore(player2, player1);
+        } else if (player1.getScore() == 40) {
             return "DEUCE";
-        } else if (player1Score > 0) {
-            return player1Score + "e";
+        } else if (player1.getScore() > 0) {
+            return player1.getScore() + "e";
         }
-        return player1 + " 0 - " + player2 + " 0";
+        return player1.getName() + " 0 - " + player2.getName() + " 0";
     }
 
-    private String getPlayerScore(int player1Score, int player2Score, String player1) {
-        if (player1Score == 55) {
-            if (player2Score == 40) {
-                return player1 + " ADVANTAGE";
+    private String getPlayerScore(Player player1, Player player2) {
+        if (player1.getScore() == 55) {
+            if (player2.getScore() == 40) {
+                return player1.getName() + " ADVANTAGE";
             } else {
-                return player1 + " WIN";
+                return player1.getName() + " WIN";
             }
-        } else if (player1Score == 70) {
-            return player1 + " WIN";
+        } else if (player1.getScore() == 70) {
+            return player1.getName() + " WIN";
         }
-        return player1 + " " + player1Score;
+        return player1.getName() + " " + player1.getScore();
     }
 }
